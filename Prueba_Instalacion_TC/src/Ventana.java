@@ -15,6 +15,12 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.sun.jna.WString;
+import com.sun.jna.platform.win32.Kernel32;
+import com.sun.jna.platform.win32.Kernel32Util;
+import com.sun.jna.platform.win32.WinBase.PROCESS_INFORMATION;
+import com.sun.jna.platform.win32.WinBase.STARTUPINFO;
+
 public class Ventana extends JFrame implements ActionListener
 {
 
@@ -99,8 +105,11 @@ public class Ventana extends JFrame implements ActionListener
 			
 			JPasswordField pass = new JPasswordField();
 			
+			JLabel label = new JLabel("Escriba la contraseña para " + admin + ":");
+			
 			try
 			{
+				
 				String cmd[] = new String [3];
 				cmd [0] = "cmd";
 				cmd [1] = "/C";
@@ -108,24 +117,46 @@ public class Ventana extends JFrame implements ActionListener
 				
 				//cmd [3] = String.valueOf(pass.getPassword());
 
-				Process p = Runtime.getRuntime().exec(cmd);
+				/*Process p = Runtime.getRuntime().exec(cmd);
 				//p.waitFor();
 				
 				InputStream is = p.getInputStream();
 				InputStreamReader isr = new InputStreamReader(is);
-				BufferedReader br = new BufferedReader(isr);
+				BufferedReader br = new BufferedReader(isr);*/
 				
-				String line;
+				//String line;
+
+				JOptionPane.showConfirmDialog(null, new Object[]{label, pass}, "Password", JOptionPane.OK_CANCEL_OPTION);
 				
-				while ((line = br.readLine()) != null) 
+				/*while ((line = br.readLine()) != null) 
 				{
 					if (line.contains("Escriba la contra"))
 						line = new String ("Escriba la contraseña para " + admin + ":");
 					//JOptionPane.showMessageDialog(null, line, "Alerta", JOptionPane.INFORMATION_MESSAGE);
-					JOptionPane.showConfirmDialog(null, new Object[]{line, pass}, "Password", JOptionPane.OK_CANCEL_OPTION);
-				}
+				}*/
 								
-				br.close();
+				PROCESS_INFORMATION processInformation = new PROCESS_INFORMATION();
+			    STARTUPINFO startupInfo = new STARTUPINFO();
+			    
+			    boolean result = MoreAdvApi32.INSTANCE.CreateProcessWithLogonW
+			       (new WString(admin),                         			// user
+			        null,                                           		// domain , null if local
+			        new WString(String.valueOf(pass.getPassword())),        // password
+			        MoreAdvApi32.LOGON_WITH_PROFILE,                 		// dwLogonFlags
+			        null,                                           		// lpApplicationName
+			        new WString(rutaIns),   								// command line
+			        MoreAdvApi32.CREATE_NEW_CONSOLE,                 		// dwCreationFlags
+			        null,                                            		// lpEnvironment
+			        null,							                   		// directory
+			        startupInfo,
+			        processInformation);
+				
+			    if (!result)
+			    {
+			    	int error = Kernel32.INSTANCE.GetLastError();
+			    	JOptionPane.showMessageDialog(null, Kernel32Util.formatMessageFromLastErrorCode(error), "Error", JOptionPane.ERROR_MESSAGE);
+			    }
+				//br.close();
 				
 			}
 			catch (Exception e1)
