@@ -2,9 +2,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+//import java.io.BufferedReader;
+//import java.io.InputStream;
+//import java.io.InputStreamReader;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -31,7 +31,9 @@ public class Ventana extends JFrame implements ActionListener
 	
 	private JPanel panel;
 	
-	private JPanel panelInterno;
+	private JPanel panelArriba;
+	
+	private JPanel panelMedio;
 	
 	private JLabel etiqueta;
 	
@@ -47,6 +49,8 @@ public class Ventana extends JFrame implements ActionListener
 	
 	private JButton instalar;
 	
+	private JButton ayudaNombre;
+	
 	public Ventana ()
 	{
 		super("Instalación TC");
@@ -56,8 +60,11 @@ public class Ventana extends JFrame implements ActionListener
 		this.panel = new JPanel();
 		this.panel.setLayout(new BorderLayout());
 		
-		this.panelInterno = new JPanel();
-		this.panelInterno.setLayout(new BoxLayout(this.panelInterno, BoxLayout.Y_AXIS));
+		this.panelArriba = new JPanel();
+		this.panelArriba.setLayout(new BoxLayout(this.panelArriba, BoxLayout.Y_AXIS));
+		
+		this.panelMedio = new JPanel();
+		this.panelMedio.setLayout(new BoxLayout(this.panelMedio, BoxLayout.Y_AXIS));
 		
 		String textoDom = "<html><body><b> Ejemplo con máquina ligada a un dominio:<b> <i> administrator@dominio.local <i> </body></html>";
 		String textoSin = "<html><body><b> Ejemplo sin máquina ligada a un dominio: <b> <i> administrator <i> </body></html>";
@@ -68,7 +75,6 @@ public class Ventana extends JFrame implements ActionListener
 		this.etiquetaSin.setForeground(Color.MAGENTA);
 		
 		this.etiqueta2 = new JLabel ("Introduzca su nombre de usuario administrador: ");
-		this.etiqueta2.setForeground(Color.RED);
 		
 		this.nombre = new JTextField();
 		
@@ -76,21 +82,24 @@ public class Ventana extends JFrame implements ActionListener
 		
 		this.ruta = new JTextField();
 		
-		this.panelInterno.add(this.etiqueta2);
-		this.panelInterno.add(this.etiquetaDom);
-		this.panelInterno.add(this.etiquetaSin);
-		this.panelInterno.add(this.nombre);
-		this.panelInterno.add(this.etiqueta);
-		this.panelInterno.add(this.ruta);
+		this.ayudaNombre = new JButton ("Ayuda nombre usuario");
+		this.ayudaNombre.addActionListener(this);
+		
+		this.panelArriba.add(this.etiqueta2);
+		this.panelArriba.add(this.nombre);
+		this.panelArriba.add(this.ayudaNombre);
+		this.panelMedio.add(this.etiqueta);
+		this.panelMedio.add(this.ruta);
 		
 		this.instalar = new JButton ("Instalar");
 		this.instalar.addActionListener(this);
 		
-		this.panel.add(this.panelInterno, BorderLayout.NORTH);
+		this.panel.add(this.panelArriba, BorderLayout.NORTH);
+		this.panel.add(this.panelMedio, BorderLayout.CENTER);
 		this.panel.add(this.instalar, BorderLayout.SOUTH);
 		
 		this.add(this.panel);
-		this.setSize(500, 250);
+		this.setSize(500, 200);
 		this.setVisible(true);
 	}
 
@@ -149,13 +158,45 @@ public class Ventana extends JFrame implements ActionListener
 			    	int error = Kernel32.INSTANCE.GetLastError();
 			    	JOptionPane.showMessageDialog(null, Kernel32Util.formatMessageFromLastErrorCode(error), "Error", JOptionPane.ERROR_MESSAGE);
 			    }
-				//br.close();
 				
 			}
 			catch (Exception e1)
 			{
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
+			
+		}
+		else if (e.getActionCommand().equals("Ayuda nombre usuario"))
+		{
+			final JFrame frameAyuda = new JFrame ("Pantalla de ayuda");
+			
+			frameAyuda.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			
+			frameAyuda.setSize(500, 150);
+			
+			JPanel panelAyuda = new JPanel ();
+			
+			JButton aceptar = new JButton ("Aceptar");
+			aceptar.addActionListener(new ActionListener()
+				{
+
+					@Override
+					public void actionPerformed(ActionEvent e) 
+					{
+						frameAyuda.dispose();
+					}
+				
+				});
+			
+			panelAyuda.setLayout(new BorderLayout());
+			
+			panelAyuda.add(this.etiquetaDom, BorderLayout.NORTH);
+			panelAyuda.add(this.etiquetaSin, BorderLayout.CENTER);
+			panelAyuda.add(aceptar, BorderLayout.SOUTH);
+			
+			frameAyuda.add(panelAyuda);
+			
+			frameAyuda.setVisible(true);
 		}
 	}
 	
