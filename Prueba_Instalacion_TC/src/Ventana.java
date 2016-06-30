@@ -97,23 +97,19 @@ public class Ventana extends JFrame implements ActionListener
 			
 			String rutaIns = this.ruta.getText();
 			
-			JLabel label = new JLabel("Introduzca contraseña de administrador para " + admin + ":");
-			
 			JPasswordField pass = new JPasswordField();
 			
 			try
 			{
-				String cmd[] = new String [4];
-				cmd [0] = "C:/Windows/System32/cmd.exe";
+				String cmd[] = new String [3];
+				cmd [0] = "cmd";
 				cmd [1] = "/C";
 				cmd [2] = "runas /user:" + admin + " " + rutaIns;
-				JOptionPane.showConfirmDialog(null, new Object[]{label, pass}, "Password", JOptionPane.OK_CANCEL_OPTION);
-				cmd [3] = String.valueOf(pass.getPassword());
+				
+				//cmd [3] = String.valueOf(pass.getPassword());
 
 				Process p = Runtime.getRuntime().exec(cmd);
 				//p.waitFor();
-				p.getOutputStream().write(cmd [3].getBytes());
-				p.getInputStream().read(cmd [3].getBytes());
 				
 				InputStream is = p.getInputStream();
 				InputStreamReader isr = new InputStreamReader(is);
@@ -123,7 +119,10 @@ public class Ventana extends JFrame implements ActionListener
 				
 				while ((line = br.readLine()) != null) 
 				{
-					JOptionPane.showMessageDialog(null, line, "Alerta", JOptionPane.INFORMATION_MESSAGE);
+					if (line.contains("Escriba la contra"))
+						line = new String ("Escriba la contraseña para " + admin + ":");
+					//JOptionPane.showMessageDialog(null, line, "Alerta", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showConfirmDialog(null, new Object[]{line, pass}, "Password", JOptionPane.OK_CANCEL_OPTION);
 				}
 								
 				br.close();
