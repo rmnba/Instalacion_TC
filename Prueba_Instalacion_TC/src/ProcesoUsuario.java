@@ -5,9 +5,9 @@ import com.sun.jna.platform.win32.Advapi32;
 import com.sun.jna.platform.win32.WinBase.PROCESS_INFORMATION;
 import com.sun.jna.platform.win32.WinBase.STARTUPINFO;
 
-public interface MoreAdvApi32 extends Advapi32
+public interface ProcesoUsuario extends Advapi32
 {
-	MoreAdvApi32 INSTANCE = (MoreAdvApi32) Native.loadLibrary("AdvApi32", MoreAdvApi32.class);
+	ProcesoUsuario INSTANCE = (ProcesoUsuario) Native.loadLibrary("AdvApi32", ProcesoUsuario.class);
 	
 	boolean CreateProcessWithLogonW
     (WString lpUsername,
