@@ -142,8 +142,7 @@ public class Ventana extends JFrame implements ActionListener
 				
 				//String line;
 
-				JOptionPane.showConfirmDialog(null, new Object[]{label, pass}, "Password", JOptionPane.OK_CANCEL_OPTION);
-				
+				JOptionPane.showConfirmDialog(null, new Object[]{label, pass}, "Password", JOptionPane.OK_CANCEL_OPTION);				
 								
 				PROCESS_INFORMATION processInformation = new PROCESS_INFORMATION();
 			    STARTUPINFO startupInfo = new STARTUPINFO();
@@ -185,6 +184,7 @@ public class Ventana extends JFrame implements ActionListener
 			JPanel panelAyuda = new JPanel ();
 			
 			JButton aceptar = new JButton ("Aceptar");
+			
 			aceptar.addActionListener(new ActionListener()
 				{
 
