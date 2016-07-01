@@ -26,8 +26,8 @@ public interface ProcesoUsuario extends Advapi32
 	public static final int LOGON_NETCREDENTIALS_ONLY   = 0x00000002;
 
 
-	int CREATE_NO_WINDOW            = 0x08000000;
-	int CREATE_UNICODE_ENVIRONMENT  = 0x00000400;
-	int CREATE_NEW_CONSOLE          = 0x00000010;
-	int DETACHED_PROCESS            = 0x00000008;
+	public static int CREATE_NO_WINDOW            = 0x08000000;
+	public static int CREATE_UNICODE_ENVIRONMENT  = 0x00000400;
+	public static int CREATE_NEW_CONSOLE          = 0x00000010;
+	public static int DETACHED_PROCESS            = 0x00000008;
 }
