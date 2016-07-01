@@ -149,7 +149,7 @@ public class Ventana extends JFrame implements ActionListener
 			    
 			    boolean result = ProcesoUsuario.INSTANCE.CreateProcessWithLogonW
 			       (new WString(admin),                         			// user
-			        null,                                           		// domain , null if local
+			        null,                                           		// domain, null if local
 			        new WString(String.valueOf(pass.getPassword())),        // password
 			        ProcesoUsuario.LOGON_WITH_PROFILE,                 		// dwLogonFlags
 			        null,                                           		// lpApplicationName
