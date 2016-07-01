@@ -35,6 +35,8 @@ public class Ventana extends JFrame implements ActionListener
 	
 	private JPanel panelMedio;
 	
+	private JPanel panelAbajo;
+	
 	private JLabel etiqueta;
 	
 	private JLabel etiqueta2;
@@ -47,7 +49,7 @@ public class Ventana extends JFrame implements ActionListener
 	
 	private JTextField ruta;
 	
-	private JButton instalar;
+	private JButton ejecutar;
 	
 	private JButton ayudaNombre;
 	
@@ -65,6 +67,9 @@ public class Ventana extends JFrame implements ActionListener
 		
 		this.panelMedio = new JPanel();
 		this.panelMedio.setLayout(new BoxLayout(this.panelMedio, BoxLayout.Y_AXIS));
+		
+		this.panelAbajo = new JPanel();
+		this.panelAbajo.setLayout(new BorderLayout());
 		
 		String textoDom = "<html><body><b> Ejemplo con máquina ligada a un dominio:<b> <i> administrator@dominio.local <i> </body></html>";
 		String textoSin = "<html><body><b> Ejemplo sin máquina ligada a un dominio: <b> <i> administrator <i> </body></html>";
@@ -87,16 +92,19 @@ public class Ventana extends JFrame implements ActionListener
 		
 		this.panelArriba.add(this.etiqueta2);
 		this.panelArriba.add(this.nombre);
-		this.panelArriba.add(this.ayudaNombre);
+		
 		this.panelMedio.add(this.etiqueta);
 		this.panelMedio.add(this.ruta);
 		
-		this.instalar = new JButton ("Instalar");
-		this.instalar.addActionListener(this);
+		this.ejecutar = new JButton ("Ejecutar");
+		this.ejecutar.addActionListener(this);
+
+		this.panelAbajo.add(this.ayudaNombre, BorderLayout.WEST);
+		this.panelAbajo.add(this.ejecutar, BorderLayout.EAST);
 		
 		this.panel.add(this.panelArriba, BorderLayout.NORTH);
 		this.panel.add(this.panelMedio, BorderLayout.CENTER);
-		this.panel.add(this.instalar, BorderLayout.SOUTH);
+		this.panel.add(this.panelAbajo, BorderLayout.SOUTH);
 		
 		this.add(this.panel);
 		this.setSize(500, 200);
@@ -106,7 +114,7 @@ public class Ventana extends JFrame implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
-		if (e.getActionCommand().equals("Instalar"))
+		if (e.getActionCommand().equals("Ejecutar"))
 		{
 			String admin = this.nombre.getText();
 			
@@ -170,7 +178,7 @@ public class Ventana extends JFrame implements ActionListener
 		{
 			final JFrame frameAyuda = new JFrame ("Pantalla de ayuda");
 			
-			frameAyuda.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frameAyuda.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			
 			frameAyuda.setSize(500, 150);
 			
