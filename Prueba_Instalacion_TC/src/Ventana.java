@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -54,8 +55,13 @@ public class Ventana extends JFrame implements ActionListener
 	private JButton ayudaNombre;
 	
 	public Ventana ()
-	{
-		super("Instalación TC");
+	{		
+		super();
+		
+		JLabel titulo = new JLabel ("Instalación TC");
+		titulo.setHorizontalAlignment(JLabel.CENTER);
+		
+		this.setTitle(titulo.getText());
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -108,6 +114,7 @@ public class Ventana extends JFrame implements ActionListener
 		
 		this.add(this.panel);
 		this.setSize(500, 200);
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 
@@ -142,7 +149,6 @@ public class Ventana extends JFrame implements ActionListener
 				
 				//String line;
 				
-				pass.requestFocus();
 				JOptionPane.showConfirmDialog(null, new Object[]{label, pass}, "Password", JOptionPane.OK_CANCEL_OPTION);				
 								
 				PROCESS_INFORMATION processInformation = new PROCESS_INFORMATION();
@@ -176,11 +182,11 @@ public class Ventana extends JFrame implements ActionListener
 		}
 		else if (e.getActionCommand().equals("Ayuda nombre usuario"))
 		{
-			final JFrame frameAyuda = new JFrame ("Pantalla de ayuda - Nombre de usuario");
+			final JDialog dialogAyuda = new JDialog (this, "Pantalla de ayuda - Nombre de usuario");
 			
-			frameAyuda.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			dialogAyuda.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			
-			frameAyuda.setSize(500, 150);
+			dialogAyuda.setSize(500, 125);
 			
 			JPanel panelAyuda = new JPanel ();
 			
@@ -192,7 +198,7 @@ public class Ventana extends JFrame implements ActionListener
 					@Override
 					public void actionPerformed(ActionEvent e) 
 					{
-						frameAyuda.dispose();
+						dialogAyuda.dispose();
 					}
 				
 				});
@@ -203,9 +209,9 @@ public class Ventana extends JFrame implements ActionListener
 			panelAyuda.add(this.etiquetaSin, BorderLayout.CENTER);
 			panelAyuda.add(aceptar, BorderLayout.SOUTH);
 			
-			frameAyuda.add(panelAyuda);
-			
-			frameAyuda.setVisible(true);
+			dialogAyuda.add(panelAyuda);
+			dialogAyuda.setLocationRelativeTo(this);
+			dialogAyuda.setVisible(true);
 		}
 	}
 	
