@@ -208,11 +208,7 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 			{
 				// TODO Auto-generated catch block
 				JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			}/*catch (InterruptedException e2) 
-			{
-				// TODO Auto-generated catch block
-				JOptionPane.showMessageDialog(null, e2.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			}*/
+			}
 		}
 		else
 		{
@@ -254,7 +250,7 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 			boolean jambo = true;
 			
 			while (jambo)
-				jambo = this.jambo_loco(pid);
+				jambo = this.while_install(pid);
 			
 		}
 	
@@ -268,7 +264,7 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 		cop.copyDirectory(src, dst);
 	}
 	
-	private boolean jambo_loco (int pid)
+	private boolean while_install (int pid)
 	{
 		
 		Kernel32 kernel32 = (Kernel32) Native.loadLibrary(Kernel32.class, W32APIOptions.UNICODE_OPTIONS);
