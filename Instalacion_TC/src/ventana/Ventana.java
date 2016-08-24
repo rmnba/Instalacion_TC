@@ -1,8 +1,8 @@
 package ventana;
 
 import java.io.File;
-//import java.io.IOException;
 import java.io.Serializable;
+
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -20,18 +20,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-/*import com.sun.jna.Native;
-import com.sun.jna.platform.win32.Kernel32;
-import com.sun.jna.platform.win32.Tlhelp32;
-import com.sun.jna.platform.win32.WinDef;
-import com.sun.jna.platform.win32.WinNT;
-import com.sun.jna.platform.win32.WinBase.PROCESS_INFORMATION;
-import com.sun.jna.win32.W32APIOptions;*/
 import com.sun.jna.platform.win32.Kernel32Util;
 
 import control.Controlador;
-//import copiado.CopiarArchivo;
-//import procesos.LanzamientoInstalacion;
 
 public class Ventana extends JFrame implements Serializable, ActionListener, Vista
 {
@@ -160,7 +151,7 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 		
 		this.pass = new JPasswordField();
 		
-		control = new Controlador(this);
+		this.control = new Controlador(this);
 	}
 
 	/**
@@ -174,6 +165,7 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 			JLabel label = new JLabel("Escriba la contraseña para " + this.nombre.getText() + ":");
 			
 			JOptionPane.showConfirmDialog(null, new Object[]{label, this.pass}, "Password", JOptionPane.OK_CANCEL_OPTION);
+			
 			// Ejecución de la instalación
 			control.run(this.nombre.getText(), String.valueOf(this.pass.getPassword()), this.ruta.getText());
 			
@@ -226,110 +218,24 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 			// Ejecución de la actualización
 			control.runAct(this.nombre.getText(), String.valueOf(this.pass.getPassword()), this.txtRutaIni.getText());
 			
-			//if (correcto)
-			/*{
-				this.setVisible(false);
-				JOptionPane.showMessageDialog(null, "Instalación correcta", "Correcto", JOptionPane.INFORMATION_MESSAGE);
-				
-				System.exit(0);
-			}*/
-			
 		}
 	}
-
-	/**
-	 * Método que lanza la ejecución de la aplicación, pasándole el nombre de usuario administrador
-	 * y la ruta donde se encuentra el archivo a ejecutar. Ésta, a su vez, comprueba llamando al método
-	 * "while_install" que continúa ejecutando el proceso, para no continuar mientras exista el proceso.
-	 * @param admin
-	 * @param rutaIns
-	 * @return true si ejecución correcta y false en caso contrario.
-	 */
-	/*private boolean run(String admin, String rutaIns) 
-	{		
-		
-		PROCESS_INFORMATION processInformation = new PROCESS_INFORMATION();
-			
-		boolean result = LanzamientoInstalacion.resultadoEjecucion(admin, String.valueOf(pass.getPassword()), rutaIns, processInformation);
-		
-		// La forma de comprobar que el proceso continúa ejecutando es con su pid.
-		int pid = processInformation.dwProcessId.intValue();
-			
-		if (!result)
-		{
-		    int error = Kernel32.INSTANCE.GetLastError();
-		    JOptionPane.showMessageDialog(null, Kernel32Util.formatMessageFromLastErrorCode(error), "Error", JOptionPane.ERROR_MESSAGE);
-		}
-		else
-		{
-			boolean jambo = true;
-			
-			while (jambo)
-				jambo = this.while_install(pid);
-			
-		}
-	
-		return result;
-	}*/
 	
 	/**
-	 * Copia el contenido del directorio fuente "src" en el directorio destino "dst"
-	 * @param src
-	 * @param dst
-	 * @throws IOException
+	 * Método que muestra ventana diciendo si la instalación fue o no correcta
+	 * @param correcto
 	 */
-	/*private void copiado (File src, File dst) throws IOException
-	{
-		CopiarArchivo cop = CopiarArchivo.getInstance();
-		
-		cop.copyDirectory(src, dst);
-	}*/
-	
-	/**
-	 * Método que permite esperar mientras la ejecución de la aplicación 
-	 * está en proceso comprobando su pid, previamente al copiado de archivos.
-	 * @param pid
-	 * @return
-	 */
-	/*private boolean while_install (int pid)
-	{
-		
-		Kernel32 kernel32 = (Kernel32) Native.loadLibrary(Kernel32.class, W32APIOptions.UNICODE_OPTIONS);
-	    Tlhelp32.PROCESSENTRY32.ByReference processEntry = new Tlhelp32.PROCESSENTRY32.ByReference();          
-
-	    WinNT.HANDLE snapshot = kernel32.CreateToolhelp32Snapshot(Tlhelp32.TH32CS_SNAPPROCESS, new WinDef.DWORD(0));
-	    try  
-	    {
-	    	int i = 0;
-	    	
-	    	int size = processEntry.dwSize.intValue();
-	    	
-	    	while (kernel32.Process32Next(snapshot, processEntry) && i < size) 
-	    	{             
-	    		if (processEntry.th32ProcessID.intValue() == pid)
-	    			return true;
-	    		i++;
-	        }
-	    	
-	    }
-	    finally 
-	    {
-	        kernel32.CloseHandle(snapshot);
-	    }
-	    return false;
-	}*/
-	
 	public void resultadoInstalacion (boolean correcto)
 	{
+		this.setVisible(false);
+		
 		if (correcto)
-		{
-			this.setVisible(false);
 			JOptionPane.showMessageDialog(null, "Instalación correcta", "Correcto", JOptionPane.INFORMATION_MESSAGE);
 
-			System.exit(0);
-		}
 		else
 			JOptionPane.showMessageDialog(null, "Instalación errónea", "Error", JOptionPane.ERROR_MESSAGE);
+		
+		System.exit(0);
 	}
 
 	@Override
