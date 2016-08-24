@@ -1,7 +1,7 @@
 package copiado;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+/*import java.io.DataInputStream;
+import java.io.DataOutputStream;*/
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -41,11 +41,8 @@ public class CopiarArchivo
    
     /**
      * Copia un arhivo de una ubicación a otra.
-     * Devuelve true si y solo si se completó la operación correctamente. 
-     * de otro modo devuelve false 
      * @param origen
      * @param destino
-     * @return boolean
      */
     public void copyDirectory(File srcDir, File dstDir) throws IOException 
     { 
@@ -82,6 +79,7 @@ public class CopiarArchivo
         out.close(); 
     } 
     
+    /*
     @SuppressWarnings({ "resource", "deprecation" })
 	public void copyFindAndReplace(String source_file, String destination_file, String toFind, String toReplace)
     {
@@ -124,6 +122,6 @@ public class CopiarArchivo
             System.err.println ("I/O Error - " + ioe);
         }
         
-    }
+    }*/
      
 }

@@ -76,6 +76,9 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 	
 	private JButton copiado;
 	
+	/**
+	 * Constructor, que inicializa la Ventana
+	 */
 	public Ventana ()
 	{		
 		super();
@@ -151,11 +154,15 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 		this.txtRutaFin = new JTextField ();
 	}
 
+	/**
+	 * Método para las acciones de los botones de la ventana.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getActionCommand().equals("Ejecutar"))
 		{			
+			// Ejecución de la instalación
 			boolean correcto = this.run(this.nombre.getText(), this.ruta.getText());
 				
 			if (correcto)
@@ -199,9 +206,11 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 		{	
 			try 
 			{
+				// Desconozco cuanto tiempo podría llevar el copiado de archivos, por eso no sé
+				// durante cuánto tiempo habría que dormir el proceso principal
 				this.copiado(new File(this.txtRutaIni.getText()), new File(this.txtRutaFin.getText()));
 				
-				//Thread.sleep(300000);
+				// Thread.sleep(300000);
 				
 				this.update2();
 			} catch (IOException e1) 
@@ -212,6 +221,7 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 		}
 		else
 		{
+			// Ejecución de la actualización
 			boolean correcto = this.run(this.nombre.getText(), this.txtRutaIni.getText());
 			
 			if (correcto)
@@ -225,6 +235,14 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 		}
 	}
 
+	/**
+	 * Método que lanza la ejecución de la aplicación, pasándole el nombre de usuario administrador
+	 * y la ruta donde se encuentra el archivo a ejecutar. Ésta, a su vez, comprueba llamando al método
+	 * "while_install" que continúa ejecutando el proceso, para no continuar mientras exista el proceso.
+	 * @param admin
+	 * @param rutaIns
+	 * @return true si ejecución correcta y false en caso contrario.
+	 */
 	private boolean run(String admin, String rutaIns) 
 	{
 			
@@ -238,6 +256,7 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 			
 		boolean result = LanzamientoInstalacion.resultadoEjecucion(admin, String.valueOf(pass.getPassword()), rutaIns, processInformation);
 		
+		// La forma de comprobar que el proceso continúa ejecutando es con su pid.
 		int pid = processInformation.dwProcessId.intValue();
 			
 		if (!result)
@@ -257,6 +276,12 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 		return result;
 	}
 	
+	/**
+	 * Copia el contenido del directorio fuente "src" en el directorio destino "dst"
+	 * @param src
+	 * @param dst
+	 * @throws IOException
+	 */
 	private void copiado (File src, File dst) throws IOException
 	{
 		CopiarArchivo cop = CopiarArchivo.getInstance();
@@ -264,6 +289,12 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 		cop.copyDirectory(src, dst);
 	}
 	
+	/**
+	 * Método que permite esperar mientras la ejecución de la aplicación 
+	 * está en proceso comprobando su pid, previamente al copiado de archivos.
+	 * @param pid
+	 * @return
+	 */
 	private boolean while_install (int pid)
 	{
 		
@@ -291,7 +322,7 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 	    }
 	    return false;
 	}
-	
+
 	@Override
 	public void mostrar() 
 	{
@@ -344,7 +375,6 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 		this.setVisible(true);
 	}
 
-	
 	@Override
 	public void update2() 
 	{

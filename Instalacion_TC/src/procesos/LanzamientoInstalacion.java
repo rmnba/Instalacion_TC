@@ -6,6 +6,14 @@ import com.sun.jna.platform.win32.WinBase.STARTUPINFO;
 
 public class LanzamientoInstalacion 
 {
+	/**
+	 * Método que lanza la ejecución de la aplicación en cuestión
+	 * @param user
+	 * @param password
+	 * @param ruta
+	 * @param processInformation
+	 * @return true si lanzamiento correcto y false en otro caso.
+	 */
 	public static boolean resultadoEjecucion (String user, String password, String ruta, PROCESS_INFORMATION processInformation)
 	{
 		boolean resul = false;
