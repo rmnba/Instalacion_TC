@@ -1,4 +1,4 @@
-package ventana;
+package mvc.vista;
 
 public interface Vista 
 {

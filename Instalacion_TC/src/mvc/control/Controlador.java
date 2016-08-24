@@ -1,9 +1,9 @@
-package control;
+package mvc.control;
 
 import java.io.File;
 
-import modelo.Modelo;
-import ventana.Ventana;
+import mvc.modelo.Modelo;
+import mvc.vista.Ventana;
 
 public class Controlador 
 {

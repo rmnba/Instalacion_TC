@@ -1,4 +1,4 @@
-package ventana;
+package mvc.vista;
 
 import java.io.File;
 import java.io.Serializable;
@@ -22,7 +22,7 @@ import javax.swing.border.LineBorder;
 
 import com.sun.jna.platform.win32.Kernel32Util;
 
-import control.Controlador;
+import mvc.control.Controlador;
 
 public class Ventana extends JFrame implements Serializable, ActionListener, Vista
 {

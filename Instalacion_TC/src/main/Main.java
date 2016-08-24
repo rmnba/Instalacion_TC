@@ -1,6 +1,6 @@
 package main;
 
-import ventana.Ventana;
+import mvc.vista.Ventana;
 
 public class Main 
 {

@@ -1,4 +1,4 @@
-package modelo;
+package mvc.modelo;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,8 +12,8 @@ import com.sun.jna.platform.win32.WinBase.PROCESS_INFORMATION;
 import com.sun.jna.win32.W32APIOptions;
 
 import copiado.CopiarArchivo;
+import mvc.vista.Ventana;
 import procesos.LanzamientoInstalacion;
-import ventana.Ventana;
 
 public class Modelo 
 {
