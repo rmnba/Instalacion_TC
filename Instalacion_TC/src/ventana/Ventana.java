@@ -1,7 +1,7 @@
 package ventana;
 
 import java.io.File;
-import java.io.IOException;
+//import java.io.IOException;
 import java.io.Serializable;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -20,17 +20,18 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import com.sun.jna.Native;
+/*import com.sun.jna.Native;
 import com.sun.jna.platform.win32.Kernel32;
-import com.sun.jna.platform.win32.Kernel32Util;
 import com.sun.jna.platform.win32.Tlhelp32;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinNT;
 import com.sun.jna.platform.win32.WinBase.PROCESS_INFORMATION;
-import com.sun.jna.win32.W32APIOptions;
+import com.sun.jna.win32.W32APIOptions;*/
+import com.sun.jna.platform.win32.Kernel32Util;
 
-import copiado.CopiarArchivo;
-import procesos.LanzamientoInstalacion;
+import control.Controlador;
+//import copiado.CopiarArchivo;
+//import procesos.LanzamientoInstalacion;
 
 public class Ventana extends JFrame implements Serializable, ActionListener, Vista
 {
@@ -75,6 +76,10 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 	private JButton ejeAct;
 	
 	private JButton copiado;
+	
+	private JPasswordField pass;
+	
+	private Controlador control;
 	
 	/**
 	 * Constructor, que inicializa la Ventana
@@ -152,6 +157,10 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 		this.txtRutaIni = new JTextField ();
 		
 		this.txtRutaFin = new JTextField ();
+		
+		this.pass = new JPasswordField();
+		
+		control = new Controlador(this);
 	}
 
 	/**
@@ -162,11 +171,11 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 	{
 		if (e.getActionCommand().equals("Ejecutar"))
 		{			
+			JLabel label = new JLabel("Escriba la contraseña para " + this.nombre.getText() + ":");
+			
+			JOptionPane.showConfirmDialog(null, new Object[]{label, this.pass}, "Password", JOptionPane.OK_CANCEL_OPTION);
 			// Ejecución de la instalación
-			boolean correcto = this.run(this.nombre.getText(), this.ruta.getText());
-				
-			if (correcto)
-				this.update();
+			control.run(this.nombre.getText(), String.valueOf(this.pass.getPassword()), this.ruta.getText());
 			
 		}
 		else if (e.getActionCommand().equals("Ayuda nombre usuario"))
@@ -204,33 +213,26 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 		}
 		else if (e.getActionCommand().equals("Copiado archivos"))
 		{	
-			try 
-			{
-				// Desconozco cuanto tiempo podría llevar el copiado de archivos, por eso no sé
-				// durante cuánto tiempo habría que dormir el proceso principal
-				this.copiado(new File(this.txtRutaIni.getText()), new File(this.txtRutaFin.getText()));
-				
-				// Thread.sleep(300000);
-				
-				this.update2();
-			} catch (IOException e1) 
-			{
-				// TODO Auto-generated catch block
-				JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			}
+			control.copiado(new File(this.txtRutaIni.getText()), new File(this.txtRutaFin.getText()));
 		}
 		else
 		{
-			// Ejecución de la actualización
-			boolean correcto = this.run(this.nombre.getText(), this.txtRutaIni.getText());
+			this.pass.setText(null);
 			
-			if (correcto)
-			{
+			JLabel label = new JLabel("Escriba la contraseña para " + this.nombre.getText() + ":");
+			
+			JOptionPane.showConfirmDialog(null, new Object[]{label, this.pass}, "Password", JOptionPane.OK_CANCEL_OPTION);
+			
+			// Ejecución de la actualización
+			control.runAct(this.nombre.getText(), String.valueOf(this.pass.getPassword()), this.txtRutaIni.getText());
+			
+			//if (correcto)
+			/*{
 				this.setVisible(false);
 				JOptionPane.showMessageDialog(null, "Instalación correcta", "Correcto", JOptionPane.INFORMATION_MESSAGE);
 				
 				System.exit(0);
-			}
+			}*/
 			
 		}
 	}
@@ -243,14 +245,8 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 	 * @param rutaIns
 	 * @return true si ejecución correcta y false en caso contrario.
 	 */
-	private boolean run(String admin, String rutaIns) 
-	{
-			
-		JPasswordField pass = new JPasswordField();
-			
-		JLabel label = new JLabel("Escriba la contraseña para " + admin + ":");
-		
-		JOptionPane.showConfirmDialog(null, new Object[]{label, pass}, "Password", JOptionPane.OK_CANCEL_OPTION);
+	/*private boolean run(String admin, String rutaIns) 
+	{		
 		
 		PROCESS_INFORMATION processInformation = new PROCESS_INFORMATION();
 			
@@ -274,7 +270,7 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 		}
 	
 		return result;
-	}
+	}*/
 	
 	/**
 	 * Copia el contenido del directorio fuente "src" en el directorio destino "dst"
@@ -282,12 +278,12 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 	 * @param dst
 	 * @throws IOException
 	 */
-	private void copiado (File src, File dst) throws IOException
+	/*private void copiado (File src, File dst) throws IOException
 	{
 		CopiarArchivo cop = CopiarArchivo.getInstance();
 		
 		cop.copyDirectory(src, dst);
-	}
+	}*/
 	
 	/**
 	 * Método que permite esperar mientras la ejecución de la aplicación 
@@ -295,7 +291,7 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 	 * @param pid
 	 * @return
 	 */
-	private boolean while_install (int pid)
+	/*private boolean while_install (int pid)
 	{
 		
 		Kernel32 kernel32 = (Kernel32) Native.loadLibrary(Kernel32.class, W32APIOptions.UNICODE_OPTIONS);
@@ -321,11 +317,26 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 	        kernel32.CloseHandle(snapshot);
 	    }
 	    return false;
+	}*/
+	
+	public void resultadoInstalacion (boolean correcto)
+	{
+		if (correcto)
+		{
+			this.setVisible(false);
+			JOptionPane.showMessageDialog(null, "Instalación correcta", "Correcto", JOptionPane.INFORMATION_MESSAGE);
+
+			System.exit(0);
+		}
+		else
+			JOptionPane.showMessageDialog(null, "Instalación errónea", "Error", JOptionPane.ERROR_MESSAGE);
 	}
 
 	@Override
 	public void mostrar() 
 	{
+		// TODO Auto-generated method stub
+		
 		this.add(this.panel);
 		this.setSize(500, 300);
 		this.setLocationRelativeTo(null);
@@ -336,6 +347,8 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 	@Override
 	public void update() 
 	{
+		// TODO Auto-generated method stub
+		
 		this.setVisible(false);
 		this.panel.removeAll();
 		this.panel.updateUI();
@@ -393,6 +406,20 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 		this.setSize(300, 100);
 		this.add(this.panel);
 		this.setVisible(true);
+	}
+
+	@Override
+	public void updateError(int error) 
+	{
+		// TODO Auto-generated method stub
+	    JOptionPane.showMessageDialog(null, Kernel32Util.formatMessageFromLastErrorCode(error), "Error", JOptionPane.ERROR_MESSAGE);		
+	}
+
+	@Override
+	public void updateErrorCopy(String mensaje) 
+	{
+		// TODO Auto-generated method stub
+		JOptionPane.showMessageDialog(null, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
 	}
 	
 	
