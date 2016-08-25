@@ -30,8 +30,8 @@ public class Modelo
 	 * y la ruta donde se encuentra el archivo a ejecutar. Ésta, a su vez, comprueba llamando al método
 	 * "while_install" que continúa ejecutando el proceso, para no continuar mientras exista el proceso.
 	 * @param admin
+	 * @param password
 	 * @param rutaIns
-	 * @return true si ejecución correcta y false en caso contrario.
 	 */
 	public void run (String admin, String password, String rutaIns)
 	{
