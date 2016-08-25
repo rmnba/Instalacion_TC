@@ -143,7 +143,6 @@ public class Modelo
 			
 		}
 		
-		if (error == 0)
-			ventana.resultadoInstalacion(result);
+		ventana.resultadoInstalacion(result);
 	}
 }

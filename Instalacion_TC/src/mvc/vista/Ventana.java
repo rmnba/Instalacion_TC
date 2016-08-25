@@ -230,12 +230,14 @@ public class Ventana extends JFrame implements Serializable, ActionListener, Vis
 		this.setVisible(false);
 		
 		if (correcto)
+		{
 			JOptionPane.showMessageDialog(null, "Instalación correcta", "Correcto", JOptionPane.INFORMATION_MESSAGE);
-
+			System.exit(0);			
+		}
+		
 		else
 			JOptionPane.showMessageDialog(null, "Instalación errónea", "Error", JOptionPane.ERROR_MESSAGE);
 		
-		System.exit(0);
 	}
 
 	@Override
