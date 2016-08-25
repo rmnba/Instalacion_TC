@@ -1,12 +1,18 @@
 package mvc.control;
 
 import java.io.File;
+import java.io.Serializable;
 
 import mvc.modelo.Modelo;
 import mvc.vista.Ventana;
 
-public class Controlador 
+public class Controlador implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Modelo modelo;
 	
 	public Controlador (Ventana v)

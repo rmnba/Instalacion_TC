@@ -2,6 +2,7 @@ package mvc.modelo;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.Kernel32;
@@ -15,14 +16,19 @@ import copiado.CopiarArchivo;
 import mvc.vista.Ventana;
 import procesos.LanzamientoInstalacion;
 
-public class Modelo 
+public class Modelo implements Serializable
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Ventana ventana;
 	
 	public Modelo(Ventana v)
 	{
-		ventana = v;
+		this.ventana = v;
 	}
 
 	/**
@@ -45,7 +51,7 @@ public class Modelo
 		if (!result)
 		{
 		    int error = Kernel32.INSTANCE.GetLastError();
-		    ventana.updateError(error);
+		    this.ventana.updateError(error);
 		}
 		else
 		{
@@ -54,7 +60,7 @@ public class Modelo
 			while (jambo)
 				jambo = this.while_install(pid);
 			
-			ventana.update();
+			this.ventana.update();
 		}
 	}
 	
@@ -105,11 +111,11 @@ public class Modelo
 		try
 		{
 			cop.copyDirectory(src, dst);				
-			ventana.update2();		
+			this.ventana.update2();		
 		}
 		catch (IOException e)
 		{
-			ventana.updateErrorCopy(e.getMessage());
+			this.ventana.updateErrorCopy(e.getMessage());
 		}		
 	}
 	
@@ -132,7 +138,7 @@ public class Modelo
 		if (!result)
 		{
 		    error = Kernel32.INSTANCE.GetLastError();
-		    ventana.updateError(error);
+		    this.ventana.updateError(error);
 		}
 		else
 		{
@@ -143,6 +149,6 @@ public class Modelo
 			
 		}
 		
-		ventana.resultadoInstalacion(result);
+		this.ventana.resultadoInstalacion(result);
 	}
 }
